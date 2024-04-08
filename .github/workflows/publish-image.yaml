@@ -9,9 +9,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: build
-        run: |
-          docker build . -t finnick5/molydocker:latest
+        run: docker build . -t finnick5/molydocker:latest
       - name: publish
         run: |
-          docker login -u finnick5 -p ${{ secret.DOCKER_HUB_TOKEN }}
+          docker login -u finnick5 -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push finnick5/molydocker:latest
