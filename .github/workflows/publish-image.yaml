@@ -13,4 +13,5 @@ jobs:
           docker build . -t finnick5/molydocker:latest
       - name: publish
         run: |
+          docker login -u finnick5 -p ${{ secret.DOCKER_HUB_TOKEN }}
           docker push finnick5/molydocker:latest
