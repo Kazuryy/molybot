@@ -42,7 +42,7 @@ async def on_ready():
 
 
 # Help
-@bot.tree.command(name="help")
+@bot.tree.command(name="help", description="Répertoire des commandes")
 async def help(interaction: discord.Integration):
 
 
@@ -63,7 +63,7 @@ async def help(interaction: discord.Integration):
 
 
 # Test de réponse
-@bot.tree.command(name="check")
+@bot.tree.command(name="check", description="Vérifier si les commandes slash fonctionnent correctement",)
 async def check(interaction: discord.Integration):
     await interaction.response.defer()
     msg = await interaction.followup.send(f"Hey {interaction.user.mention} ! Les interactions fonctionnent !")
@@ -76,7 +76,7 @@ async def check(interaction: discord.Integration):
 
 
 #Commande Say
-@bot.tree.command(name="say")
+@bot.tree.command(name="say", description="Je dis ce que tu veux dire")
 @app_commands.describe(thing_to_say = "What should i say ?")
 async def say(interraction: discord.Interaction, thing_to_say : str):
     await interraction.response.send_message(f"{interraction.user.name} said `{thing_to_say}`")
@@ -103,7 +103,7 @@ async def say(interraction: discord.Interaction, thing_to_say : str):
 
 
 #Commande Clear Messages
-@bot.tree.command(name="sup")
+@bot.tree.command(name="sup", description="Supprimer n messages")
 @app_commands.describe(message = "Nombre de message à supprimer")
 async def sup(interaction: discord.Interaction, message : int):
     await interaction.response.defer(ephemeral=True)
@@ -117,7 +117,7 @@ async def sup(interaction: discord.Interaction, message : int):
 
 
 #Spam de messages
-@bot.tree.command(name="spam")
+@bot.tree.command(name="spam", description="Envoie n fois le message qui m'est donné")
 @app_commands.describe(message = "Je vais dire quoi ?", number = "Combien de fois je dois le dire ?", time = "Supprimer le message après combien de temps")
 async def spam(interaction, message: str, number: int, time: int = 30):
     await interaction.response.defer()
@@ -169,8 +169,8 @@ def save_user_counts(user_counts):
 
 
 #Commande de Sanction
-@bot.tree.command(name="sanction")
-@app_commands.describe(temps="Combien de temps mute cette personne ?")
+@bot.tree.command(name="sanction", description="Sanctionner un utilisateur pour une raison précise. Fonctinnement dans rules")
+@app_commands.describe(membre="Qui doit être sanctionné ?",temps="Combien de temps mute cette personne ?",raison="Quelle est la raison de cette sanction ?")
 async def sanction(interaction: discord.Integration, membre: discord.Member, temps: int, raison: str):
     user_counts = load_user_counts()
     mute_count = user_counts.get(str(membre.id), 0)
@@ -197,7 +197,7 @@ async def sanction(interaction: discord.Integration, membre: discord.Member, tem
 
 
 #Commande remove sanction
-@bot.tree.command(name="unsanction")
+@bot.tree.command(name="unsanction", description="Retirer la sanction d'un utilisateur")
 async def unsanction(interaction: discord.Integration, member: discord.Member):
     user_counts = load_user_counts()
     mute_count = user_counts.get(str(member.id), 0)
