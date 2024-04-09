@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . -t finnick5/test:1.0.1
+      run: docker build . -t finnick5/test:latest
     - name: Login
       run: docker login -u finnick5 -p ${{ secrets.DOCKER_KEY }}
     - name: Publish
-      run: docker push finnick5/test:1.0.1
+      run: docker push finnick5/test:latest
