@@ -5,10 +5,10 @@ import asyncio
 import os
 from discord import app_commands
 from discord.ext import commands
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
+#load_dotenv()
+#TOKEN = os.getenv("DISCORD_TOKEN")
 
 
 bot = commands.Bot(command_prefix="!", intents = discord.Intents.all())
@@ -210,7 +210,4 @@ async def unsanction(interaction: discord.Integration, member: discord.Member):
 
 
 
-
-# Run the bot with your token
-bot.run(TOKEN) #MolyBot
-#bot.run() #Elbot
+bot.run("TOKEN")

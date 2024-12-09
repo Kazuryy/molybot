@@ -1,17 +1,22 @@
-name: Publish image to docker hub
+name: Docker Image CI
+
 on:
-  [workflow_dispatch]
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  publish_image:
-    runs-on: ubunto_latest
+
+  build:
+
+    runs-on: ubuntu-latest
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: build
-        run: |
-          docker build . -t finnick5/molydocker:latest
-      - name: publish
-        run: |
-          docker login -u finnick5 -p ${{ secret.DOCKER_HUB_TOKEN }}
-          docker push finnick5/molydocker:latest
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . -t finnick5/test:v1.0.3
+    - name: Login
+      run: docker login -u finnick5 -p ${{ secrets.DOCKER_KEY }}
+    - name: Publish
+      run: docker push finnick5/test:v1.0.3
