@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN_ELBOT")
+TOKEN = os.getenv("DISCORD_TOKEN")
 DATABASE_TOKEN = os.getenv("DATABASE_ID")
 
 # Initialize bot
