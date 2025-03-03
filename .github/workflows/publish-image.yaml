@@ -39,5 +39,7 @@ jobs:
 
       - name: Clean up Docker images
         run: |
+          IMAGE_NAME=finnick5/molybot
+          VERSION=${{ env.VERSION }}
           docker rmi $IMAGE_NAME:$VERSION
           docker rmi $IMAGE_NAME:latest
