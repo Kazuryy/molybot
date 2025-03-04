@@ -1,8 +1,7 @@
 FROM python:3.12-bullseye
 
 # Add metadata to the image
-LABEL maintainer="your_email@example.com"
-LABEL version="1.0"
+LABEL version="2.0.2"
 LABEL description="Docker image for Molybot"
 
 # Set the working directory
