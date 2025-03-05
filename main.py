@@ -96,21 +96,27 @@ async def formulaire(interaction: discord.Interaction):
 @app_commands.describe(message="Nombre de message à supprimer")
 async def sup(interaction: discord.Interaction, message: int):
     await interaction.response.defer(ephemeral=True)
-    await interaction.channel.purge(limit=message)
-    await interaction.followup.send(f"{message} message(s) ont été supprimé(s)")
+    
+    def is_not_pinned(msg):
+        return not msg.pinned
+
+    deleted = await interaction.channel.purge(limit=message, check=is_not_pinned)
+    await interaction.followup.send(f"{len(deleted)} message(s) ont été supprimé(s)", ephemeral=True)
 
 # Spam command
 @bot.tree.command(name="spam", description="Envoie n fois le message qui m'est donné")
 @app_commands.describe(message="Je vais dire quoi ?", number="Combien de fois je dois le dire ?", time="Supprimer le message après combien de temps")
 async def spam(interaction: discord.Interaction, message: str, number: int, time: int = 30):
-    await interaction.response.defer()
-    messages = []
-    for _ in range(number):
-        msg = await interaction.followup.send(f"{message}")
-        messages.append(msg)
-    await asyncio.sleep(time)
-    for msg in messages:
+    await interaction.response.defer(ephemeral=True)
+    
+    async def send_and_delete(message: str, delay: int):
+        msg = await interaction.followup.send(message)
+        await asyncio.sleep(delay)
         await msg.delete()
+
+    tasks = [send_and_delete(message, time) for _ in range(number)]
+    await asyncio.gather(*tasks)
+    await interaction.followup.send(f"{number} message(s) ont été envoyés et seront supprimés après {time} secondes.", ephemeral=True)
 
 ##########################################
 ##         Commandes Notion bot         ##
