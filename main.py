@@ -29,6 +29,12 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+def has_allowed_role():
+    def predicate(interaction: discord.Interaction):
+        allowed_roles = [1230258831595016234, 833042720968015972]  # Remplace avec tes ID de rôles
+        return any(role.id in allowed_roles for role in interaction.user.roles)
+    return app_commands.check(predicate)
+
 ##################################
 ##            Général           ##
 ##################################
@@ -93,6 +99,7 @@ async def formulaire(interaction: discord.Interaction):
 
 # Clear Messages command
 @bot.tree.command(name="sup", description="Supprimer n messages")
+@has_allowed_role()
 @app_commands.describe(message="Nombre de message à supprimer")
 async def sup(interaction: discord.Interaction, message: int):
     await interaction.response.defer(ephemeral=True)
@@ -105,6 +112,7 @@ async def sup(interaction: discord.Interaction, message: int):
 
 # Spam command
 @bot.tree.command(name="spam", description="Envoie n fois le message qui m'est donné")
+@has_allowed_role()
 @app_commands.describe(message="Je vais dire quoi ?", number="Combien de fois je dois le dire ?", time="Supprimer le message après combien de temps")
 async def spam(interaction: discord.Interaction, message: str, number: int, time: int = 30):
     await interaction.response.defer(ephemeral=True)
